@@ -19,7 +19,7 @@ function WoocomerceAdvanceWPShowMetaBox($post) {
 	$data  = unserialize(get_post_meta($post->ID,'_my_meta_value_key',true));
 	//print_r($data);
 
-	echo "<script>var product = []; var sub = [[]];</script>";
+	echo "<script>var product = []; var sub = [[]];var submain = [];</script>";
 	
 	echo "<div id='WoocomerceAdvanceWPShowMetaBox'>";
 	echo "";
@@ -28,27 +28,33 @@ function WoocomerceAdvanceWPShowMetaBox($post) {
 		foreach ($data as $key => $market) {
 			echo "<div id='MarkeID".$i."'>";
 
-			echo ' MarketIcon Url: <input id="shop_image'.$i.'" type="text" size="90" name="shop_image'.$i.'" value="'.$market['MarketIcon'].'" /> OR ';
+			echo ' Market Icon Url: <input id="shop_image'.$i.'" type="text" size="90" name="shop_image'.$i.'" value="'.$market['MarketIcon'].'" /> OR ';
 			echo '<input type="button" class="button" value="Upload" onclick="image_upload('.$i.')" /><br>';
-			echo ' MarketName <input type="text" 	 name="MarketName_N'.$i.'" value="'.$market['MarketName'].'">';
-			echo ' ProdName   <input type="text" 	 name="ProdName_N'.$i.'"   value="'.$market['ProdName'].'"><br><br>';
-			echo ' ProdPrice  <input type="number" 	 name="ProdPrice_N'.$i.'"  value="'.$market['ProdPrice'].'">';
-			echo ' ProdWeight <input type="number" 	 name="ProdWeight_N'.$i.'" value="'.$market['ProdWeight'].'">';
-			echo ' ProdInfo   <input type="text" 	 name="ProdInfo_N'.$i.'"   value="'.$market['ProdInfo'].'">';
-			echo ' InStock 	  <input type="checkbox" name="InStock_N'.$i.'"	   '.checkboxstatus($market['InStock']).' value="1"><br>';
-			
+			echo ' Market Url: <input type="text" 	  name="MarketName_N'.$i.'" value="'.$market['MarketName'].'" size="90">';
+			echo ' ProdName    <input type="text" 	  name="ProdName_N'.$i.'"   value="'.$market['ProdName'].'"><br><br>';
+			echo ' ProdPrice   <input type="number"   name="ProdPrice_N'.$i.'"  value="'.$market['ProdPrice'].'">';
+			echo ' ProdWeight  <input type="number"   name="ProdWeight_N'.$i.'" value="'.$market['ProdWeight'].'">';
+			echo ' ProdInfo    <input type="text" 	  name="ProdInfo_N'.$i.'"   value="'.$market['ProdInfo'].'">';
+			echo ' InStock 	   <input type="checkbox" name="InStock_N'.$i.'"	   '.checkboxstatus($market['InStock']).' value="1"> ';
+			echo " <input type='button' onclick='add_mainsubtupe_meta(".$i.")' value='Add Subtype' class='button button-small'><br>";
+
+			echo "<div id='MarkeID_SubtypeMain".$i."'>";
 			$submain = 0;
 			if (!empty($market['SubtypeMain'])) {
 				foreach ($market['SubtypeMain'] as $SubtypeMain) {
-					echo "<div id='MarkeID".$i."_Sub".$SubtypeMain."'>";
+					echo "<div id='MarkeID".$i."_SubMain".$submain."'>";
 					echo "&nbsp;";
-					echo ' Subtype <input type="text" 	  name="SubtypeName_N'.$i.'_Alt'.$a.'_Sub'.$sub.'" 			  value="'.$SubtypeMain['SubtypeName'].'">';
-					echo ' InStock <input type="checkbox" name="InStock_N'.$i.'_Alt'.$a.'_Sub'.$sub.'"   			  value="1" '.checkboxstatus($SubtypeMain['InStock']).'>';
-					echo " <input type='button' onclick='remove_market_meta(\"MarkeID".$i."_Alt".$a."_Sub".$sub."\")' value='Remove' class='button button-small'><br>";
+					echo ' Subtype <input type="text" 	  name="SubtypeName_N'.$i.'_SubMain'.$submain.'" 		    value="'.$SubtypeMain['SubtypeName'].'">';
+					echo ' InStock <input type="checkbox" name="InStock_N'.$i.'_SubMain'.$submain.'"   			    value="1" '.checkboxstatus($SubtypeMain['InStock']).'>';
+					echo " <input type='button' onclick='remove_market_meta(\"MarkeID".$i."_SubMain".$submain."\")' value='Remove' class='button button-small'><br>";
 					echo '</div>';
 					$submain++;
 				}
 			}
+			echo '</div>';
+			echo '<input type="hidden" name="count_subtypemain_N'.$i.'" id="count_subtypemain_N'.$i.'" value="'.$submain.'">';
+			echo "<script>submain[".$i."] =".$submain.";</script>";
+
 
 
 			echo "<br>";
@@ -147,7 +153,19 @@ function WoocomerceAdvanceWPSavePostdata( $post_id ) {
 			$my_data[$i]['ProdWeight'] 	= sanitize_text_field( $_POST['ProdWeight_N'.$i] );
 			$my_data[$i]['ProdInfo'] 	= sanitize_text_field( $_POST['ProdInfo_N'.$i] );
 			$my_data[$i]['InStock'] 	= sanitize_text_field( $_POST['InStock_N'.$i] );
-			$counter_alt =   sanitize_text_field( $_POST['count_alt_N'.$i] );
+			
+
+			$count_subtypemain  = sanitize_text_field( $_POST['count_subtypemain_N'.$i] );
+			if ($count_subtypemain != 0) {
+				for ($s=0; $s < $count_subtypemain; $s++) {
+					if (!empty($_POST['SubtypeName_N'.$i.'_SubMain'.$s])) {
+						$my_data[$i]['SubtypeMain'][$s]['SubtypeName'] = sanitize_text_field( $_POST['SubtypeName_N'.$i.'_SubMain'.$s] );
+						$my_data[$i]['SubtypeMain'][$s]['InStock'] 	   = sanitize_text_field( $_POST['InStock_N'.$i.'_SubMain'.$s] );
+					}
+				}
+			}
+
+			$counter_alt = sanitize_text_field( $_POST['count_alt_N'.$i] );
 			if ($counter_alt != 0) {
 				for ($a=0; $a < $counter_alt; $a++) {
 					if (!empty($_POST['ProdPrice_N'.$i.'_Alt'.$a]) AND !empty($_POST['ProdWeight_N'.$i.'_Alt'.$a]) AND !empty($_POST['ProdInfo_N'.$i.'_Alt'.$a])) {
@@ -211,5 +229,195 @@ Code wp loader image
     // Запускаем функцию подключения загрузчика  
     if( is_admin() )  
     add_action('admin_print_scripts', 'my_add_upload_scripts');  
+
+  ?>
+	
+
+<?php 
+
+function register_my_widgets(){
+	register_sidebar( array(
+		'name'          => 'WoocomerceAdvanceWPBar',
+		'id'            => "WoocomerceAdvanceWPBar",
+		'description'   => '',
+		'class'         => '',
+		'before_widget' => '<li id="%1$s" class="widget %2$s">',
+		'after_widget'  => "</li>\n",
+		'before_title'  => '<h2 class="widgettitle">',
+		'after_title'   => "</h2>\n",
+	) );
+}
+
+add_action( 'widgets_init', 'register_my_widgets' );
+ ?>
+
+ <?php 
+
+class My_Widget extends WP_Widget {
+
+	function __construct() {
+		// Запускаем родительский класс
+		parent::__construct(
+			'WoocomerceAdvanceWP', 
+			'WoocomerceAdvanceWP',
+			array('description' => 'WoocomerceAdvanceWP')
+		);
+
+		// стили скрипты виджета, только если он активен
+		if ( is_active_widget( false, false, $this->id_base ) || is_customize_preview() ) {
+			add_action('wp_enqueue_scripts', array( $this, 'add_my_widget_scripts' ));
+			add_action('wp_head', array( $this, 'add_my_widget_style' ) );
+		}
+	}
+
+	// Вывод виджета
+	function widget( $args, $instance ){
+		//$title = apply_filters( 'widget_title', $instance['title'] );
+
+		//echo $args['before_widget'];
+
+		//if( $title )
+		//	echo $args['before_title'] . $title . $args['after_title'];
+
+		//echo 'Привет!';
+
+		//echo $args['after_widget'];
+		//  \
+		function taste_stock_class($InStock){
+			if ($InStock == 1) echo 'stock-prod';
+			else echo 'stock-prod-out';
+		}
+		function stock_class($InStock){
+			if ($InStock == 1) echo 'stock-prod-in';
+			else echo 'stock-prod-out';
+		}
+		function stock_text($InStock){
+			if ($InStock == 1) echo 'В наличии';
+			else echo 'Нет в наличии';
+		}
+		if (!empty(get_post_meta(get_the_ID(),'_my_meta_value_key',true))) {
+
+			$data  = unserialize(get_post_meta(get_the_ID(),'_my_meta_value_key',true));
+			print_r($data);
+
+
+
+			?>
+			<?php  ?>
+			<?php 
+			foreach ($data as $i => $market) { 
+			?>
+		     	<div class="title-avalible">Стоимость, наличие товара в интернет-магазинах</div>
+		     		<div class="tab-accardion-price">
+		     			<input id="tab-<?php echo $i; ?>" type="checkbox" name="tabs">     
+				    <div class="col-md-12 tab">
+					  <label for="tab-<?php echo $i; ?>">
+						  <div class="col-md-1 plus"><i class="fa fa-plus-circle" aria-hidden="true"></i></div>
+						  <div class="col-md-3 image"><img src="<?php echo $market['MarketIcon']; ?>"></div>
+						  <div class="col-md-5 title"><span class="title-acc"><?php echo $market['ProdName']; ?></span></div>
+						  <div class="col-md-3 title"><span class="product-preice-acc">от <?php echo $market['ProdPrice']; ?>р.</span><div class="<?php stock_class($market['InStock']);?>"><?php stock_text($market['InStock']);?></div></div>
+					  </label>
+					  </div>      
+					  <div class="tab-content-price">
+					    <div class="col-md-12 p-w-desc">
+							<div class="col-md-2 weight"><?php echo $market['ProdWeight']; ?> г</div>
+							<?php if ($market['InStock']==1) $row = 4; else $row = 6; ?>
+							<div class="col-md-<?php echo $row; ?> portions"><?php echo $market['ProdInfo']; ?></div>
+							<div class="col-md-4 price-product"><?php echo $market['ProdPrice']; ?>р.
+								<div class="<?php stock_class($market['InStock']);?>"><?php stock_text($market['InStock']);?></div>
+							</div>
+							<?php if ($market['InStock']==1) echo '<div class="col-md-2 link"><a href="'.$market['ProdName'].'">Перейти на сайт</a></div>'; ?>
+						</div>
+
+						<?php 
+						if (!empty($market['SubtypeMain'])) {
+							echo '<div class="tastes-product">';
+							foreach ($market['SubtypeMain'] as $SubtypeMain) {
+							?>
+							<div class="col-md-12 product-from-market">
+								<div class="col-md-8 taste-of-product"><?php echo $SubtypeMain['SubtypeName']; ?></div>
+								<div class="col-md-4 <?php taste_stock_class($SubtypeMain['InStock']);?>"><?php stock_text($SubtypeMain['InStock']);?></div>
+							</div>
+							<?php
+							}
+							echo '<div></div></div>';
+						}
+						if (!empty($market['Alt'])) {
+							foreach ($market['Alt'] as  $altprod) {
+								?>
+								<div class="col-md-12 p-w-desc">
+									<div class="col-md-2 weight"><?php echo $altprod['ProdWeight']; ?> г</div>
+									<?php if ($altprod['InStock']==1) $row = 4; else $row = 6; ?>
+									<div class="col-md-<?php echo $row; ?> portions"><?php echo $altprod['ProdInfo']; ?></div>
+									<div class="col-md-4 price-product"><?php echo $altprod['ProdPrice']; ?> р.
+										<div class="<?php stock_class($altprod['InStock']);?>"><?php stock_text($altprod['InStock']);?></div>
+									</div>
+									<?php if ($altprod['InStock']==1) echo '<div class="col-md-2 link"><a href="'.$market['ProdName'].'">Перейти на сайт</a></div>'; ?>
+								</div>
+								<?php
+								if (!empty($altprod['Subtype'])) {
+									echo '<div class="tastes-product">';
+									foreach ($altprod['Subtype'] as $Subtype) {
+									?>
+										<div class="col-md-12 product-from-market">
+											<div class="col-md-8 taste-of-product"><?php echo $Subtype['SubtypeName']; ?></div>
+											<div class="col-md-4 <?php taste_stock_class($Subtype['InStock']);?>"><?php stock_text($Subtype['InStock']);?></div>
+										</div>
+									<?php
+									}
+									echo '<div></div></div>';
+								}
+							}
+						}
+						?>
+				        
+				     </div>
+				</div>
+
+
+			<?php
+			}//foreach data
+		} // if data
+	}
+
+	// Сохранение настроек виджета (очистка)
+	function update( $new_instance, $old_instance ) {
+	}
+
+	// html форма настроек виджета в Админ-панели
+	function form( $instance ) {
+	}
+
+	// скрипт виджета
+	function add_my_widget_scripts() {
+		// фильтр чтобы можно было отключить скрипты
+		if( ! apply_filters( 'show_my_widget_script', true, $this->id_base ) )
+			return;
+
+		$theme_url = get_stylesheet_directory_uri();
+
+		wp_enqueue_script('my_widget_script', $theme_url .'/my_widget_script.js' );
+	}
+
+	// стили виджета
+	function add_my_widget_style() {
+		// фильтр чтобы можно было отключить стили
+		if( ! apply_filters( 'show_my_widget_style', true, $this->id_base ) )
+			return;
+		?>
+		<style>
+			.my_widget a{ display:inline; }
+		</style>
+		<?php
+	}
+}
+
+// Регистрация класса виджета
+add_action( 'widgets_init', 'my_register_widgets' );
+function my_register_widgets() {
+	register_widget( 'My_Widget' );
+}
+
+
 
   ?>

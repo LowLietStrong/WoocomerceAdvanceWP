@@ -33,10 +33,11 @@ function add_market_meta(){
     fragment.appendChild(document.createElement("br"));
 
 
-    fragment.appendChild(document.createTextNode(" MarketName "));
+    fragment.appendChild(document.createTextNode(" Market Url: "));
     input = document.createElement("input");
     input.type = "text";
     input.name = "MarketName_N" + i;
+    input.size = "90";
     fragment.appendChild(input);    
 
 
@@ -75,10 +76,35 @@ function add_market_meta(){
     input.type = "checkbox";
     input.name = "InStock_N" + i;
     fragment.appendChild(input);
-    fragment.appendChild(document.createElement("br"));
+    fragment.appendChild(document.createTextNode(" "));
+
+
+    input = document.createElement("input");
+    input.type = "button";
+    input.value = "Add Subtype";
+    input.setAttribute("class", "button button-small");
+    input.setAttribute("onclick", "add_mainsubtupe_meta("+i+")");
+    fragment.appendChild(input);
+    submain[i] = 0;
+
+
+
     fragment.appendChild(document.createElement("br"));
 
 
+    div = document.createElement("div");
+    div.id = "MarkeID_SubtypeMain"+i;
+    fragment.appendChild(div);
+
+
+    input = document.createElement("input");
+    input.type = "hidden";
+    input.value = "0";
+    input.id   = "count_subtypemain_N" + i;
+    input.name = "count_subtypemain_N" + i;
+    fragment.appendChild(input);
+
+    fragment.appendChild(document.createElement("br"));
     
     div = document.createElement("div");
     div.id = "MarkeID_ShowAlt"+i;
@@ -248,6 +274,45 @@ function add_subtupe_meta(__i,__a){
 
     sub[__i][__a]++;
     document.getElementById('count_subtype_N'+__i+'_Alt'+__a).value = sub[__i][__a];
+
+    meta_block.appendChild(fragment);
+};
+
+function add_mainsubtupe_meta(f){
+    var meta_block = document.getElementById('MarkeID_SubtypeMain'+f), fragment, input, div;
+    fragment = document.createElement("div");
+
+    
+    fragment.id = "MarkeID" +f +"_SubMain" +submain[f];
+
+
+    fragment.appendChild(document.createTextNode("\xa0 Subtype "));
+    input = document.createElement("input");
+    input.type = "text";
+    input.name = "SubtypeName_N" +f +"_SubMain" +submain[f];
+    fragment.appendChild(input);
+
+
+    fragment.appendChild(document.createTextNode(" InStock "));
+    input = document.createElement("input");
+    input.type = "checkbox";
+    input.name = "InStock_N" +f +"_SubMain" +submain[f];
+    fragment.appendChild(input);
+
+
+    fragment.appendChild(document.createTextNode(" "));
+
+    
+    input = document.createElement("input");
+    input.type = "button";
+    input.value = "Remove";
+    input.setAttribute("class", "button button-small");
+    input.setAttribute("onclick", "remove_market_meta('MarkeID"+ f +"_SubMain" +submain[f]+"')");
+    fragment.appendChild(input);
+
+
+    submain[f]++;
+    document.getElementById('count_subtypemain_N'+f).value = submain[f];
 
     meta_block.appendChild(fragment);
 };
