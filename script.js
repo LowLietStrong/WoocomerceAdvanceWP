@@ -10,7 +10,7 @@ function add_market_meta(){
 
 
 
-    fragment.appendChild(document.createTextNode(" MarketIcon Url: "));
+    fragment.appendChild(document.createTextNode(" Вставте Url логотипа: "));
     input = document.createElement("input");
     input.type = "text";
     input.name = "shop_image" + i;
@@ -19,12 +19,12 @@ function add_market_meta(){
     fragment.appendChild(input);  
 
 
-    fragment.appendChild(document.createTextNode(" OR "));
+    fragment.appendChild(document.createTextNode(" ИЛИ "));
 
 
     input = document.createElement("input");
     input.type = "button";
-    input.value = "Upload";
+    input.value = "Загрузить";
     input.setAttribute("class", "button");
     input.setAttribute("onclick", "image_upload("+ i+")");
     fragment.appendChild(input); 
@@ -33,15 +33,15 @@ function add_market_meta(){
     fragment.appendChild(document.createElement("br"));
 
 
-    fragment.appendChild(document.createTextNode(" Market Url: "));
+    fragment.appendChild(document.createTextNode(" Url магазина: "));
     input = document.createElement("input");
     input.type = "text";
-    input.name = "MarketName_N" + i;
+    input.name = "MarketUrl_N" + i;
     input.size = "90";
     fragment.appendChild(input);    
 
 
-    fragment.appendChild(document.createTextNode(" ProdName "));
+    fragment.appendChild(document.createTextNode(" Наименование продукта: "));
     input = document.createElement("input");
     input.type = "text";
     input.name = "ProdName_N" + i;
@@ -50,28 +50,28 @@ function add_market_meta(){
     fragment.appendChild(document.createElement("br"));
 
 
-    fragment.appendChild(document.createTextNode(" ProdPrice "));
+    fragment.appendChild(document.createTextNode(" Цена: "));
     input = document.createElement("input");
     input.type = "number";
     input.name = "ProdPrice_N" + i;
     fragment.appendChild(input);
 
 
-    fragment.appendChild(document.createTextNode(" ProdWeight "));
+    fragment.appendChild(document.createTextNode(" Вес: "));
     input = document.createElement("input");
     input.type = "number";
     input.name = "ProdWeight_N" + i;
     fragment.appendChild(input);
 
 
-    fragment.appendChild(document.createTextNode(" ProdInfo "));
+    fragment.appendChild(document.createTextNode(" Описание: "));
     input = document.createElement("input");
     input.type = "text";
     input.name = "ProdInfo_N" + i;
     fragment.appendChild(input);
 
 
-    fragment.appendChild(document.createTextNode(" InStock "));
+    fragment.appendChild(document.createTextNode(" Наличие: "));
     input = document.createElement("input");
     input.type = "checkbox";
     input.name = "InStock_N" + i;
@@ -81,7 +81,7 @@ function add_market_meta(){
 
     input = document.createElement("input");
     input.type = "button";
-    input.value = "Add Subtype";
+    input.value = "Добавить вкус";
     input.setAttribute("class", "button button-small");
     input.setAttribute("onclick", "add_mainsubtupe_meta("+i+")");
     fragment.appendChild(input);
@@ -121,7 +121,7 @@ function add_market_meta(){
 
 	input = document.createElement("input");
 	input.type = "button";
-    input.value = "Remove";
+    input.value = "Удалить магазин";
     input.setAttribute("class", "button");
 	input.setAttribute("onclick", "remove_market_meta('MarkeID"+ i +"')");
     fragment.appendChild(input);
@@ -132,7 +132,7 @@ function add_market_meta(){
 
     input = document.createElement("input");
     input.type = "button";
-    input.value = "Add product";
+    input.value = "Добавить продукт";
     input.setAttribute("class", "button");
     input.setAttribute("onclick", "add_product_meta("+i+")");
     product[i] = 0;
@@ -169,28 +169,28 @@ function add_product_meta(_i){
     sub[_i][product[_i]] = 0;
 
 
-    fragment.appendChild(document.createTextNode(" ProdPrice "));
+    fragment.appendChild(document.createTextNode(" Цена: "));
     input = document.createElement("input");
     input.type = "number";
     input.name = "ProdPrice_N" +_i +"_Alt" +product[_i];
     fragment.appendChild(input);
 
 
-    fragment.appendChild(document.createTextNode(" ProdWeight "));
+    fragment.appendChild(document.createTextNode(" Вес: "));
     input = document.createElement("input");
     input.type = "number";
     input.name = "ProdWeight_N" +_i +"_Alt" +product[_i];
     fragment.appendChild(input);
 
 
-    fragment.appendChild(document.createTextNode(" ProdInfo "));
+    fragment.appendChild(document.createTextNode(" Описание: "));
     input = document.createElement("input");
     input.type = "text";
     input.name = "ProdInfo_N" +_i +"_Alt" +product[_i];
     fragment.appendChild(input);
 
 
-    fragment.appendChild(document.createTextNode(" InStock "));
+    fragment.appendChild(document.createTextNode(" Наличие: "));
     input = document.createElement("input");
     input.type = "checkbox";
     input.name = "InStock_N" +_i +"_Alt" +product[_i];
@@ -202,7 +202,7 @@ function add_product_meta(_i){
 
     input = document.createElement("input");
     input.type = "button";
-    input.value = "Add Subtype";
+    input.value = "Добавить вкус";
     input.setAttribute("class", "button button-small");
     input.setAttribute("onclick", "add_subtupe_meta('"+_i+"','"+product[_i]+"')");
     fragment.appendChild(input);
@@ -211,7 +211,7 @@ function add_product_meta(_i){
 
     input = document.createElement("input");
     input.type = "button";
-    input.value = "Remove";
+    input.value = "Удалить продукт";
     input.setAttribute("class", "button button-small");
     input.setAttribute("onclick", "remove_market_meta('MarkeID"+ _i +"_Alt"+product[_i]+"')");
     fragment.appendChild(input);
@@ -247,17 +247,18 @@ function add_subtupe_meta(__i,__a){
     fragment.id = "MarkeID" +__i +"_Alt" +__a +"_Sub" +sub[__i][__a];
 
 
-    fragment.appendChild(document.createTextNode("\xa0 Subtype "));
+    fragment.appendChild(document.createTextNode("\xa0 Вкус: "));
     input = document.createElement("input");
     input.type = "text";
     input.name = "SubtypeName_N" +__i +"_Alt" +__a +"_Sub" +sub[__i][__a];
     fragment.appendChild(input);
 
 
-    fragment.appendChild(document.createTextNode(" InStock "));
+    fragment.appendChild(document.createTextNode(" Наличие: "));
     input = document.createElement("input");
-    input.type = "checkbox";
-    input.name = "InStock_N" +__i +"_Alt" +__a +"_Sub" +sub[__i][__a];
+    input.type  = "checkbox";
+    input.value = "1";
+    input.name  = "InStock_N" +__i +"_Alt" +__a +"_Sub" +sub[__i][__a];
     fragment.appendChild(input);
 
 
@@ -266,7 +267,7 @@ function add_subtupe_meta(__i,__a){
     
     input = document.createElement("input");
     input.type = "button";
-    input.value = "Remove";
+    input.value = "Удалить вкус";
     input.setAttribute("class", "button button-small");
     input.setAttribute("onclick", "remove_market_meta('MarkeID"+ __i +"_Alt" +__a +"_Sub" +sub[__i][__a]+"')");
     fragment.appendChild(input);
@@ -286,17 +287,18 @@ function add_mainsubtupe_meta(f){
     fragment.id = "MarkeID" +f +"_SubMain" +submain[f];
 
 
-    fragment.appendChild(document.createTextNode("\xa0 Subtype "));
+    fragment.appendChild(document.createTextNode("\xa0 Вкус: "));
     input = document.createElement("input");
     input.type = "text";
     input.name = "SubtypeName_N" +f +"_SubMain" +submain[f];
     fragment.appendChild(input);
 
 
-    fragment.appendChild(document.createTextNode(" InStock "));
+    fragment.appendChild(document.createTextNode(" Наличие: "));
     input = document.createElement("input");
-    input.type = "checkbox";
-    input.name = "InStock_N" +f +"_SubMain" +submain[f];
+    input.type  = "checkbox";
+    input.value = "1";
+    input.name  = "InStock_N" +f +"_SubMain" +submain[f];
     fragment.appendChild(input);
 
 
@@ -305,7 +307,7 @@ function add_mainsubtupe_meta(f){
     
     input = document.createElement("input");
     input.type = "button";
-    input.value = "Remove";
+    input.value = "Удалить вкус";
     input.setAttribute("class", "button button-small");
     input.setAttribute("onclick", "remove_market_meta('MarkeID"+ f +"_SubMain" +submain[f]+"')");
     fragment.appendChild(input);

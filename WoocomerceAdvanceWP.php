@@ -17,7 +17,7 @@ function checkboxstatus($status){ if ($status) return "checked"; }
 function WoocomerceAdvanceWPShowMetaBox($post) {
 
 	$data  = unserialize(get_post_meta($post->ID,'_my_meta_value_key',true));
-	//print_r($data);
+	print_r($data);
 
 	echo "<script>var product = []; var sub = [[]];var submain = [];</script>";
 	
@@ -28,15 +28,15 @@ function WoocomerceAdvanceWPShowMetaBox($post) {
 		foreach ($data as $key => $market) {
 			echo "<div id='MarkeID".$i."'>";
 
-			echo ' Market Icon Url: <input id="shop_image'.$i.'" type="text" size="90" name="shop_image'.$i.'" value="'.$market['MarketIcon'].'" /> OR ';
-			echo '<input type="button" class="button" value="Upload" onclick="image_upload('.$i.')" /><br>';
-			echo ' Market Url: <input type="text" 	  name="MarketName_N'.$i.'" value="'.$market['MarketName'].'" size="90">';
-			echo ' ProdName    <input type="text" 	  name="ProdName_N'.$i.'"   value="'.$market['ProdName'].'"><br><br>';
-			echo ' ProdPrice   <input type="number"   name="ProdPrice_N'.$i.'"  value="'.$market['ProdPrice'].'">';
-			echo ' ProdWeight  <input type="number"   name="ProdWeight_N'.$i.'" value="'.$market['ProdWeight'].'">';
-			echo ' ProdInfo    <input type="text" 	  name="ProdInfo_N'.$i.'"   value="'.$market['ProdInfo'].'">';
-			echo ' InStock 	   <input type="checkbox" name="InStock_N'.$i.'"	   '.checkboxstatus($market['InStock']).' value="1"> ';
-			echo " <input type='button' onclick='add_mainsubtupe_meta(".$i.")' value='Add Subtype' class='button button-small'><br>";
+			echo ' Вставте Url логотипа: <input id="shop_image'.$i.'" type="text" size="90" name="shop_image'.$i.'" value="'.$market['MarketIcon'].'" /> ИЛИ ';
+			echo '<input type="button" class="button" value="Загрузить" onclick="image_upload('.$i.')" /><br>';
+			echo ' Url Магазина: 		 <input type="text"     name="MarketUrl_N'.$i.'"  value="'.$market['MarketUrl'].'" size="90">';
+			echo ' Наименование продукта: <input type="text"     name="ProdName_N'.$i.'"   value="'.$market['ProdName'].'"><br><br>';
+			echo ' Цена: 				 <input type="number"   name="ProdPrice_N'.$i.'"  value="'.$market['ProdPrice'].'">';
+			echo ' Вес:  				 <input type="number"   name="ProdWeight_N'.$i.'" value="'.$market['ProdWeight'].'">';
+			echo ' Описание: 		     <input type="text"     name="ProdInfo_N'.$i.'"   value="'.$market['ProdInfo'].'">';
+			echo ' Наличие:	   			 <input type="checkbox" name="InStock_N'.$i.'"	'.checkboxstatus($market['InStock']).' value="1"> ';
+			echo " <input type='button' onclick='add_mainsubtupe_meta(".$i.")' value='Добавить вкус' class='button button-small'><br>";
 
 			echo "<div id='MarkeID_SubtypeMain".$i."'>";
 			$submain = 0;
@@ -44,9 +44,9 @@ function WoocomerceAdvanceWPShowMetaBox($post) {
 				foreach ($market['SubtypeMain'] as $SubtypeMain) {
 					echo "<div id='MarkeID".$i."_SubMain".$submain."'>";
 					echo "&nbsp;";
-					echo ' Subtype <input type="text" 	  name="SubtypeName_N'.$i.'_SubMain'.$submain.'" 		    value="'.$SubtypeMain['SubtypeName'].'">';
-					echo ' InStock <input type="checkbox" name="InStock_N'.$i.'_SubMain'.$submain.'"   			    value="1" '.checkboxstatus($SubtypeMain['InStock']).'>';
-					echo " <input type='button' onclick='remove_market_meta(\"MarkeID".$i."_SubMain".$submain."\")' value='Remove' class='button button-small'><br>";
+					echo ' Вкус: <input type="text" 	  name="SubtypeName_N'.$i.'_SubMain'.$submain.'" 		    value="'.$SubtypeMain['SubtypeName'].'">';
+					echo ' Наличие: <input type="checkbox" name="InStock_N'.$i.'_SubMain'.$submain.'"   			    value="1" '.checkboxstatus($SubtypeMain['InStock']).'>';
+					echo " <input type='button' onclick='remove_market_meta(\"MarkeID".$i."_SubMain".$submain."\")' value='Удалить вкус' class='button button-small'><br>";
 					echo '</div>';
 					$submain++;
 				}
@@ -64,22 +64,22 @@ function WoocomerceAdvanceWPShowMetaBox($post) {
 			if (!empty($market['Alt'])) {
 				foreach ($market['Alt'] as $altprod) {
 					echo "<div id='MarkeID".$i."_Alt".$a."'>";
-					echo ' ProdPrice  <input type="number" 	 name="ProdPrice_N'.$i.'_Alt'.$a.'"  value="'.$altprod['ProdPrice'].'">';
-					echo ' ProdWeight <input type="number" 	 name="ProdWeight_N'.$i.'_Alt'.$a.'" value="'.$altprod['ProdWeight'].'">';
-					echo ' ProdInfo   <input type="text" 	 name="ProdInfo_N'.$i.'_Alt'.$a.'"   value="'.$altprod['ProdInfo'].'">';
-					echo ' InStock 	  <input type="checkbox" name="InStock_N'.$i.'_Alt'.$a.'"	'.checkboxstatus($altprod['InStock']).' value="1">';
+					echo ' Цена:  	 <input type="number" 	 name="ProdPrice_N'.$i.'_Alt'.$a.'"  value="'.$altprod['ProdPrice'].'">';
+					echo ' Вес:	 	 <input type="number" 	 name="ProdWeight_N'.$i.'_Alt'.$a.'" value="'.$altprod['ProdWeight'].'">';
+					echo ' Описание: <input type="text" 	 name="ProdInfo_N'.$i.'_Alt'.$a.'"   value="'.$altprod['ProdInfo'].'">';
+					echo ' Наличие:  <input type="checkbox"  name="InStock_N'.$i.'_Alt'.$a.'"	'.checkboxstatus($altprod['InStock']).' value="1">';
 
-					echo " <input type='button' onclick='add_subtupe_meta(".$i.",".$a.")' value='Add Subtype' class='button button-small'>";
-					echo " <input type='button' onclick='remove_market_meta(\"MarkeID".$i."_Alt".$a."\")' value='Remove' class='button button-small'><br>";
+					echo " <input type='button' onclick='add_subtupe_meta(".$i.",".$a.")' value='Добавить вкус' class='button button-small'>";
+					echo " <input type='button' onclick='remove_market_meta(\"MarkeID".$i."_Alt".$a."\")' value='Удалить продукт' class='button button-small'><br>";
 
 					$sub = 0;
 					if (!empty($altprod['Subtype'])) {
 						foreach ($altprod['Subtype'] as $Subtype) {
 							echo "<div id='MarkeID".$i."_Alt".$a."_Sub".$sub."'>";
 							echo "&nbsp;";
-							echo ' Subtype  <input type="text" 	  name="SubtypeName_N'.$i.'_Alt'.$a.'_Sub'.$sub.'" value="'.$Subtype['SubtypeName'].'">';
-							echo ' InStock <input type="checkbox" name="InStock_N'.$i.'_Alt'.$a.'_Sub'.$sub.'"   value="1" '.checkboxstatus($Subtype['InStock']).'>';
-							echo " <input type='button' onclick='remove_market_meta(\"MarkeID".$i."_Alt".$a."_Sub".$sub."\")' value='Remove' class='button button-small'><br>";
+							echo ' Вкус:  <input type="text" 	  name="SubtypeName_N'.$i.'_Alt'.$a.'_Sub'.$sub.'" value="'.$Subtype['SubtypeName'].'">';
+							echo ' Наличие: <input type="checkbox" name="InStock_N'.$i.'_Alt'.$a.'_Sub'.$sub.'"   value="1" '.checkboxstatus($Subtype['InStock']).'>';
+							echo " <input type='button' onclick='remove_market_meta(\"MarkeID".$i."_Alt".$a."_Sub".$sub."\")' value='Удалить вкус' class='button button-small'><br>";
 							echo '</div>';
 							$sub++;
 						}
@@ -100,8 +100,8 @@ function WoocomerceAdvanceWPShowMetaBox($post) {
 
 
 			echo '<input type="hidden" name="count_alt_N'.$i.'" id="count_alt_N'.$i.'" value="'.$a.'">';
-			echo "<input type='button' onclick='remove_market_meta(\"MarkeID".$i."\")' value='Remove' class='button'>";
-			echo " <input type='button' onclick='add_product_meta(".$i.")' value='Add product' class='button'>";
+			echo "<input type='button' onclick='remove_market_meta(\"MarkeID".$i."\")' value='Удалить магазин' class='button'>";
+			echo " <input type='button' onclick='add_product_meta(".$i.")' value='Добавить продукт' class='button'>";
 			echo '<br><br><hr><hr><br>';
 			echo "</div>";
 			$i++;	
@@ -117,7 +117,7 @@ function WoocomerceAdvanceWPShowMetaBox($post) {
 
 	
 	echo '<input type="hidden" name="count_markets" id="count_markets" value="'.$i.'">';
-	echo "<input type='button' onclick='add_market_meta(i)' value='Add store' class='button'>";
+	echo "<input type='button' onclick='add_market_meta(i)' value='Добавить магазин' class='button'>";
 
 }
 ?>
@@ -145,9 +145,9 @@ function WoocomerceAdvanceWPSavePostdata( $post_id ) {
 	// Все ОК. Теперь, нужно найти и сохранить данные
 
 	for ($i=0; $i < $counter; $i++) {
-		if (!empty($_POST['shop_image'.$i]) AND !empty($_POST['MarketName_N'.$i]) AND !empty($_POST['ProdName_N'.$i]) AND !empty($_POST['ProdPrice_N'.$i]) AND !empty($_POST['ProdWeight_N'.$i]) AND !empty($_POST['ProdInfo_N'.$i])) {
+		if (!empty($_POST['shop_image'.$i]) AND !empty($_POST['MarketUrl_N'.$i]) AND !empty($_POST['ProdName_N'.$i]) AND !empty($_POST['ProdPrice_N'.$i]) AND !empty($_POST['ProdWeight_N'.$i]) AND !empty($_POST['ProdInfo_N'.$i])) {
 			$my_data[$i]['MarketIcon'] 	= sanitize_text_field( $_POST['shop_image'.$i] );
-			$my_data[$i]['MarketName'] 	= sanitize_text_field( $_POST['MarketName_N'.$i] );
+			$my_data[$i]['MarketUrl'] 	= sanitize_text_field( $_POST['MarketUrl_N'.$i] );
 			$my_data[$i]['ProdName'] 	= sanitize_text_field( $_POST['ProdName_N'.$i] );
 			$my_data[$i]['ProdPrice'] 	= sanitize_text_field( $_POST['ProdPrice_N'.$i] );
 			$my_data[$i]['ProdWeight'] 	= sanitize_text_field( $_POST['ProdWeight_N'.$i] );
@@ -272,17 +272,8 @@ class My_Widget extends WP_Widget {
 
 	// Вывод виджета
 	function widget( $args, $instance ){
-		//$title = apply_filters( 'widget_title', $instance['title'] );
 
-		//echo $args['before_widget'];
-
-		//if( $title )
-		//	echo $args['before_title'] . $title . $args['after_title'];
-
-		//echo 'Привет!';
-
-		//echo $args['after_widget'];
-		//  \
+		
 		function taste_stock_class($InStock){
 			if ($InStock == 1) echo 'stock-prod';
 			else echo 'stock-prod-out';
@@ -298,45 +289,42 @@ class My_Widget extends WP_Widget {
 		if (!empty(get_post_meta(get_the_ID(),'_my_meta_value_key',true))) {
 
 			$data  = unserialize(get_post_meta(get_the_ID(),'_my_meta_value_key',true));
-			print_r($data);
+		    echo	'<div class="title-avalible">Стоимость, наличие товара в интернет-магазинах</div>';
 
-
-
-			?>
-			<?php  ?>
-			<?php 
 			foreach ($data as $i => $market) { 
 			?>
-		     	<div class="title-avalible">Стоимость, наличие товара в интернет-магазинах</div>
 		     		<div class="tab-accardion-price">
 		     			<input id="tab-<?php echo $i; ?>" type="checkbox" name="tabs">     
-				    <div class="col-md-12 tab">
+				    <div class="col-sm-12 col-xs-12 tab">
 					  <label for="tab-<?php echo $i; ?>">
-						  <div class="col-md-1 plus"><i class="fa fa-plus-circle" aria-hidden="true"></i></div>
-						  <div class="col-md-3 image"><img src="<?php echo $market['MarketIcon']; ?>"></div>
-						  <div class="col-md-5 title"><span class="title-acc"><?php echo $market['ProdName']; ?></span></div>
-						  <div class="col-md-3 title"><span class="product-preice-acc">от <?php echo $market['ProdPrice']; ?>р.</span><div class="<?php stock_class($market['InStock']);?>"><?php stock_text($market['InStock']);?></div></div>
+						  <div class="col-sm-1 col-xs-4 plus"><i class="fa fa-plus-circle" aria-hidden="true"></i></div>
+						  <div class="col-sm-3 col-xs-8 image"><img src="<?php echo $market['MarketIcon']; ?>"></div>
+						   <div class="clearfix visible-xs"></div>
+						  <div class="col-sm-5 col-xs-6 title"><span class="title-acc"><?php wp_title(''); ?></span></div>
+						  <div class="col-sm-3 col-xs-6 title"><span class="product-preice-acc">от <?php echo $market['ProdPrice']; ?>р.</span><div class="<?php stock_class($market['InStock']);?>"><?php stock_text($market['InStock']);?></div></div>
 					  </label>
-					  </div>      
+					  </div>
 					  <div class="tab-content-price">
-					    <div class="col-md-12 p-w-desc">
-							<div class="col-md-2 weight"><?php echo $market['ProdWeight']; ?> г</div>
+					    <div class="col-sm-12 col-xs-12 p-w-desc">
+							<div class="col-sm-2 col-xs-6 weight"><?php echo $market['ProdWeight']; ?> г</div>
 							<?php if ($market['InStock']==1) $row = 4; else $row = 6; ?>
-							<div class="col-md-<?php echo $row; ?> portions"><?php echo $market['ProdInfo']; ?></div>
-							<div class="col-md-4 price-product"><?php echo $market['ProdPrice']; ?>р.
+							<div class="col-sm-<?php echo $row; ?> col-xs-6 portions"><?php echo $market['ProdInfo']; ?></div>
+							<div class="clearfix visible-xs"></div>
+							<div class="col-sm-4 col-xs-6 price-product"><?php echo $market['ProdPrice']; ?>р.
 								<div class="<?php stock_class($market['InStock']);?>"><?php stock_text($market['InStock']);?></div>
 							</div>
-							<?php if ($market['InStock']==1) echo '<div class="col-md-2 link"><a href="'.$market['ProdName'].'">Перейти на сайт</a></div>'; ?>
+							<?php if ($market['InStock']==1) echo '<div class="col-sm-2 col-xs-6 link"><a href="'.$market['MarketUrl'].'"  target="_blank">Перейти на сайт</a></div>'; ?>
 						</div>
+					        
 
 						<?php 
 						if (!empty($market['SubtypeMain'])) {
 							echo '<div class="tastes-product">';
 							foreach ($market['SubtypeMain'] as $SubtypeMain) {
 							?>
-							<div class="col-md-12 product-from-market">
-								<div class="col-md-8 taste-of-product"><?php echo $SubtypeMain['SubtypeName']; ?></div>
-								<div class="col-md-4 <?php taste_stock_class($SubtypeMain['InStock']);?>"><?php stock_text($SubtypeMain['InStock']);?></div>
+							<div class="col-sm-12 col-xs-12 product-from-market">
+								<div class="col-sm-8 col-xs-6 taste-of-product"><?php echo $SubtypeMain['SubtypeName']; ?></div>
+								<div class="col-sm-4 col-xs-6 <?php taste_stock_class($SubtypeMain['InStock']);?>"><?php stock_text($SubtypeMain['InStock']);?></div>
 							</div>
 							<?php
 							}
@@ -345,27 +333,28 @@ class My_Widget extends WP_Widget {
 						if (!empty($market['Alt'])) {
 							foreach ($market['Alt'] as  $altprod) {
 								?>
-								<div class="col-md-12 p-w-desc">
-									<div class="col-md-2 weight"><?php echo $altprod['ProdWeight']; ?> г</div>
+								<div class="col-sm-12 col-xs-12 p-w-desc">
+									<div class="col-sm-2 col-xs-6 weight"><?php echo $altprod['ProdWeight']; ?> г</div>
 									<?php if ($altprod['InStock']==1) $row = 4; else $row = 6; ?>
-									<div class="col-md-<?php echo $row; ?> portions"><?php echo $altprod['ProdInfo']; ?></div>
-									<div class="col-md-4 price-product"><?php echo $altprod['ProdPrice']; ?> р.
+									<div class="col-sm-<?php echo $row; ?> col-xs-6 portions"><?php echo $altprod['ProdInfo']; ?></div>
+									<div class="clearfix visible-xs"></div>
+									<div class="col-sm-4 col-xs-6 price-product"><?php echo $altprod['ProdPrice']; ?> р.
 										<div class="<?php stock_class($altprod['InStock']);?>"><?php stock_text($altprod['InStock']);?></div>
 									</div>
-									<?php if ($altprod['InStock']==1) echo '<div class="col-md-2 link"><a href="'.$market['ProdName'].'">Перейти на сайт</a></div>'; ?>
+									<?php if ($altprod['InStock']==1) echo '<div class="col-sm-2 col-xs-6 link"><a href="'.$market['MarketUrl'].'"  target="_blank">Перейти на сайт</a></div>'; ?>
 								</div>
 								<?php
 								if (!empty($altprod['Subtype'])) {
 									echo '<div class="tastes-product">';
 									foreach ($altprod['Subtype'] as $Subtype) {
 									?>
-										<div class="col-md-12 product-from-market">
-											<div class="col-md-8 taste-of-product"><?php echo $Subtype['SubtypeName']; ?></div>
-											<div class="col-md-4 <?php taste_stock_class($Subtype['InStock']);?>"><?php stock_text($Subtype['InStock']);?></div>
+										<div class="col-sm-12 col-xs-12 product-from-market">
+											<div class="col-sm-8 col-xs-6 taste-of-product"><?php echo $Subtype['SubtypeName']; ?></div>
+											<div class="col-sm-4 col-xs-6 <?php taste_stock_class($Subtype['InStock']);?>"><?php stock_text($Subtype['InStock']);?></div>
 										</div>
 									<?php
 									}
-									echo '<div></div></div>';
+									echo '</div>';
 								}
 							}
 						}
@@ -407,6 +396,470 @@ class My_Widget extends WP_Widget {
 		?>
 		<style>
 			.my_widget a{ display:inline; }
+
+.col-sm-12.tab {
+
+    position: relative;
+
+    display: block;
+
+    background: rgba(234, 234, 234, 0.6);
+
+    font-weight: bold;
+
+    line-height: 2;
+
+    cursor: pointer;
+
+    border-left: 3px solid #5e9633;
+
+    margin: 0 0 5px;
+
+    border-top: 1px solid rgba(94, 150, 51, 0.42);
+
+    border-right: 3px solid #5e9633;
+
+    border-bottom: 1px solid rgba(94, 150, 51, 0.42);
+
+    padding: 0;
+
+}
+
+.title-avalible{
+
+	
+
+	text-transform: uppercase;
+
+    padding: 0 0 25px 0;
+
+    font-weight: bold;
+
+    font-size: 16px;
+
+}
+
+.fa.fa-plus-circle{
+
+	padding: 30px 0 0 13px;
+
+    color: #454547;
+
+}
+
+
+
+.tab-accardion-price label{
+
+		cursor:pointer;
+
+}
+
+
+
+.tab-accardion-price input {
+
+  position: absolute;
+
+  opacity: 0;
+
+  z-index: -1;
+
+}
+
+/*.tab-accardion-price label {
+
+  position: relative;
+
+  display: block;
+
+  padding: 0 0 0 1em;
+
+    background: rgba(234, 234, 234, 0.5);
+
+  font-weight: bold;
+
+  line-height: 3;
+
+  cursor: pointer;
+
+  border-left:3px solid #5e9633;
+
+}*/
+
+
+
+.blue label {
+
+  background: #2980b9;
+
+}
+
+.tab-content-price {
+
+    max-height: 0;
+
+    overflow: hidden;
+
+    -webkit-transition: max-height .35s;
+
+    -o-transition: max-height .35s;
+
+    transition: max-height .35s;
+
+    background-image: url(http://www.gymon.ru/wp-content/uploads/2014/03/bg3.png);
+
+    border: 1px solid #ececec;
+
+	    margin-bottom: 10px;
+
+		-webkit-box-shadow: 0px 3px 9px -1px rgba(0,0,0,0.35);
+
+    -moz-box-shadow: 0px 3px 9px -1px rgba(0,0,0,0.35);
+
+    box-shadow: 0px 3px 9px -1px rgba(0,0,0,0.35);
+
+}
+
+}
+
+.blue .tab-content-price {
+
+  background: #3498db;
+
+}
+
+.tab-content-price p {
+
+  margin: 1em;
+
+}
+
+/* :checked */
+
+.tab-accardion-price input:checked ~ .tab-content-price {
+
+  max-height: 5000em;
+
+}
+
+/* Icon */
+
+.tab-accardion-price label::after {
+
+  position: absolute;
+
+  right: 0;
+
+  top: 0;
+
+  display: block;
+
+  width: 3em;
+
+  height: 3em;
+
+  line-height: 3;
+
+  text-align: center;
+
+  -webkit-transition: all .35s;
+
+  -o-transition: all .35s;
+
+  transition: all .35s;
+
+}
+
+.tab-accardion-price input[type=checkbox] + .tab-accardion-price label::after {
+
+  content: "+";
+
+}
+
+.tab-accardion-price input[type=radio] + .tab-accardion-price label::after {
+
+  content: "\25BC";
+
+}
+
+.tab-accardion-price input[type=checkbox]:checked  + .tab-accardion-price label::after {
+
+  transform: rotate(315deg);
+
+}
+
+.tab-accardion-price input[type=radio]:checked  + .tab-accardion-price label::after {
+
+  transform: rotateX(180deg);
+
+}
+
+span.title-acc {
+
+    padding: 12px;
+
+    color: #5e9633;
+
+}
+
+span.product-preice-acc {
+
+    /* text-align: right; */
+
+    padding: 0px 0px 0px 25px;
+
+    font-size: 18px;
+
+    color: #424447;
+
+    /* background: whitesmoke; */
+
+}
+
+.col-sm-2.weight {
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    text-transform: uppercase;
+
+    color: black;
+
+    padding: 25px 20px;
+
+}
+
+.col-sm-4.portions {
+
+    padding: 25px 10px;
+
+    font-size: 11px;
+
+    text-transform: uppercase;
+
+    color: #4e4e4e;
+
+    font-weight: 600;
+
+}
+
+.col-sm-6.portions {
+
+    padding: 25px 10px;
+
+    font-size: 11px;
+
+    text-transform: uppercase;
+
+    color: #4e4e4e;
+
+    font-weight: 600;
+
+}
+
+.col-sm-5.title
+
+{
+
+	text-transform: uppercase;
+
+    font-size: 16px;
+
+	padding: 18px 0px 0 15px;
+
+	
+
+}
+
+.col-sm-3.image{
+
+	width: 140px;
+
+	padding: 20px 0 0 0;
+
+}
+
+.col-sm-4.price-product {
+
+    padding: 12px;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    color: #150000;
+
+	text-align: right;
+
+}
+
+
+
+.col-sm-3.title{
+
+	    text-align: right;
+
+    /* font-size: 18px; */
+
+    padding: 5px 0 0 0;
+
+	
+
+}
+
+.col-sm-2.link{
+
+    padding: 22px 11px;
+
+    font-size: 11px;
+
+    text-align: right;
+
+    text-transform: uppercase;
+
+    color: green;
+
+    font-weight: bold;
+
+    text-decoration: underline;
+
+}
+
+
+
+.col-sm-12.tab:hover{
+
+	 background: rgba(234, 234, 234, 0.1);
+
+	-webkit-transition: all .4s ease;
+
+    -moz-transition: all .4s ease;
+
+    -o-transition: all .4s ease;
+
+    transition: all .4s ease;
+
+}
+
+.col-sm-12.tab:active{
+
+	 background: rgba(200, 200, 200, 0.2);
+
+	-webkit-transition: all .4s ease;
+
+    -moz-transition: all .4s ease;
+
+    -o-transition: all .4s ease;
+
+    transition: all .4s ease;
+
+}
+
+
+
+
+
+.col-sm-12.tab label{
+
+	width:100%;
+
+	margin:0px;
+
+}
+.product-from-market .col-sm-4.stock-prod-out {
+    font-size: 11px;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding: 0 11px;
+    text-align: right;
+}
+
+.stock-prod-out {
+
+    font-size: 11px;
+
+}
+
+.stock-prod-in {
+
+    font-size: 11px;
+
+    color: green;
+
+    text-transform: uppercase;
+
+}
+
+
+
+.col-sm-4.stock-prod {
+
+    font-size: 11px;
+
+    text-transform: uppercase;
+
+    font-weight: bold;
+
+    color: green;
+
+	padding: 0 11px;
+
+	text-align:right;
+
+}
+
+.col-sm-8.taste-of-product {
+
+    color: #505050;
+
+    font-weight: 600;
+
+    padding: 0 0 0 40px;
+
+}
+
+.col-sm-12.product-from-market {
+
+    border-bottom: 2px groove #ffffff !important;
+
+    padding: 10px;
+
+}
+
+.col-sm-12.product-from-market:last-child
+
+{border-bottom: none;}
+
+.col-sm-12.product-from-market:first-child
+
+{border-top: none;}
+
+.col-sm-12.p-w-desc {
+
+    border-bottom: 2px groove #ffffff;
+
+}
+@media screen and (max-width: 750px) {
+	.col-sm-2.weight{
+		padding: 10px 20px;
+	}
+	.col-sm-4.portions{
+		padding: 10px 0px;
+	}
+	.col-sm-4.price-product {
+		text-align: left;
+		padding: 0px 12px;
+	}
+	.col-sm-2.link{
+		text-align: left;
+		padding: 0px;
+	}
+	.col-sm-8.taste-of-product{
+		padding: 0 0 0 10px;
+	}
+}
 		</style>
 		<?php
 	}
